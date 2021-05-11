@@ -59,7 +59,7 @@ class PostTableViewCell: UITableViewCell {
         for comment in postData.comments {
             allComments += "\(comment)\n"
             print(comment)
-            self.commentLabel.text = allComments
         }
+        self.commentLabel.text = allComments
     }
 }
