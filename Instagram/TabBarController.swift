@@ -5,12 +5,19 @@
 //  Created by Ami Hirahara on 2021/04/27.
 //
 
+import Firebase //先頭でFirebaseをimportしておく
 import UIKit
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //currentUserがnilならログインしていない
+        if Auth.auth().currentUser == nil {
+            //ログインしていないときの処理
+            let loginVireController = self.storyboard?.instantiateViewController(withIdentifier: "Login")
+            self.present(loginVireController!, animated: true, completion: nil)
+        }
         //タブアイコンの色
         self.tabBar.tintColor = UIColor(red: 1.0, green: 0.44, blue: 0.11, alpha: 1)
         //タブバーの背景色
@@ -19,10 +26,10 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
     }
     //タブバーのアイコンがタップされた時に呼ばれるdelegateメソッドを処理する
-    func tabBarContrller(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController is ImageSelectViewController {
             //ImageSelectViewControllerは、タブ切り替えではなくモーダル画面遷移する
-            let imageSelectViewController = storyboard! .instantiateViewController(withIdentifier: "ImageSelect")
+            let imageSelectViewController = storyboard!.instantiateViewController(withIdentifier: "ImageSelect")
             present(imageSelectViewController, animated: true)
             return false
         } else {
